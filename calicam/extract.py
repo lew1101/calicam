@@ -34,5 +34,5 @@ def extract_parameters(proj_matrix: ProjMatrix) -> Parameters:
     principal_point = extract_principal_point(K)
     angles = extract_orientation(R)
     t_vec = tuple([n for n in t])
-    print(t_vec)
+    print(K, R)
     return Parameters(focal_lengths, principal_point, angles, t_vec)
