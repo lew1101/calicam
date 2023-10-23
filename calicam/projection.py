@@ -15,7 +15,7 @@ def construct_A(world_coords: list[Vec3], image_coords: list[Vec2]) -> np.ndarra
     
 def generate_proj_matrix(world_coords: list[Vec3], image_coords: list[Vec2]) -> tuple[float, ProjMatrix]:
     A = construct_A(world_coords, image_coords)
-    M = np.matmul(np.transpose(A), A)
+    M = A.T @ A
     
     eigval, p = scipy.sparse.linalg.eigs(M, k=1, which='SM')
     proj_matrix = p.real.reshape(3, 4)
@@ -25,7 +25,7 @@ def generate_proj_matrix(world_coords: list[Vec3], image_coords: list[Vec2]) -> 
 
 def project(projection_matrix: ProjMatrix, world_coords: Vec3 | Iterable[Vec3]) -> Vec2 | list[Vec2]:
     def project_impl(wc: Vec3) -> Vec2:
-        ut, vt, wt = np.dot(projection_matrix, (*wc, 1))
+        ut, vt, wt = projection_matrix @ np.array([*wc, 1.0]).reshape(-1, 1)
         return (ut/wt, vt/wt)
 
     if not isinstance(world_coords, Iterable):  
@@ -36,7 +36,7 @@ def project(projection_matrix: ProjMatrix, world_coords: Vec3 | Iterable[Vec3]) 
     
 def calculate_reproj_error(actual_coords: Vec2 | Iterator[Vec2], reproj_coords: Vec2 | Iterator[Vec2]):
     def error_impl(ac: Vec2, rc: Vec2) -> float:
-        return sqrt((ac[0]-rc[0])**2 + (ac[1]-rc[1])**2)
+        return sqrt((ac[0] - rc[0])**2 + (ac[1] - rc[1])**2)
     
     if not isinstance(actual_coords, Iterable) and not isinstance(reproj_coords, Iterable):
         return error_impl(actual_coords, reproj_coords)
