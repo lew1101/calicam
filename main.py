@@ -30,7 +30,7 @@ def main() -> int:
         f"\nProjection Matrix:\n {proj_matrix}\n",
         f"Focal Lengths: \n\tfx = {fx:.2f} px\n\tfy = {fy:.2f} px",
         f"Principal Point: \n\tcx = {cx:.2f} px\n\tcy = {cy:.2f} px",
-        f"Orientation: \n\t\u03b1 = {a:.2f}° \n\t\u03b2 = {b:.2f}° \n\t\u03b3 = {g:.2f}°",
+        f"Orientation: \n\t\u03B1 = {a:.2f}° \n\t\u03b2 = {b:.2f}° \n\t\u03B3 = {g:.2f}°",
         f"Translation: \n\tt = [{tx:.2f}, {ty:.2f}, {tz:.2f}] mm"
     )))
     
@@ -41,7 +41,7 @@ def main() -> int:
         reprojections = calicam.project(proj_matrix, data_world_coords)
         _, avg_error = calicam.calculate_reproj_error(data_image_coords, reprojections)
         
-        print(f"\nAverage Reprojection Error: \n\tμ = {avg_error:.3f} px")
+        print(f"\nAverage Reprojection Error: \n\t\u03BC = {avg_error:.3f} px")
 
     if args.graph != None:
         image_path = args.graph
