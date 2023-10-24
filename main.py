@@ -30,7 +30,7 @@ def main() -> int:
         f"\nProjection Matrix:\n {proj_matrix}\n",
         f"Focal Lengths: \n\tfx = {fx:.2f} px\n\tfy = {fy:.2f} px",
         f"Principal Point: \n\tcx = {cx:.2f} px\n\tcy = {cy:.2f} px",
-        f"Orientation: \n\tα = {a:.2f}° \n\tβ = {b:.2f}° \n\tγ = {g:.2f}°",
+        f"Orientation: \n\t\u03b1 = {a:.2f}° \n\t\u03b2 = {b:.2f}° \n\t\u03b3 = {g:.2f}°",
         f"Translation: \n\tt = [{tx:.2f}, {ty:.2f}, {tz:.2f}] mm"
     )))
     
