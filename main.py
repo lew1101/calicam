@@ -77,13 +77,12 @@ def main() -> int:
                 "ylabel": '$v$ (px)'})
             plt.legend()
             plt.show()
-
-        return 0
     
     except Exception as e:
         print(f"\nERROR: {str(e)}")
         return 1
 
+    return 0
 
 if __name__ == "__main__":
     main()
