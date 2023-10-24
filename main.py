@@ -22,12 +22,10 @@ def main() -> int:
     _, proj_matrix = calicam.generate_proj_matrix(
         calibration_world_coords, calibration_image_coords)
 
-    params = calicam.extract_parameters(proj_matrix)
-
-    fx, fy = params.focal_lengths
-    cx, cy = params.principal_point
-    a, b, g = params.angles
-    tx, ty, tz = params.translation_vector
+    K, R, t = calicam.decompose_proj_matrix(proj_matrix)
+    (cx, cy), (fx, fy) = calicam.extract_intrinsics(K)
+    a, b, g = calicam.extract_orientation_zyx(R)
+    tx, ty, tz = t
 
     print('\n', '\n\n'.join((
         f"Projection Matrix: \n{proj_matrix}",
@@ -70,18 +68,6 @@ def main() -> int:
                    s=40, c="yellow", alpha=0.8)
         ax.scatter(*zip(*calibration_image_coords),
                    label='Calibration Points', s=60, c="blue", alpha=0.8)
-
-        graph_info = '\n'.join((
-            rf"$f_x$ = ${fx:.2f}$ px, $f_y$ = ${fy:.2f}$ px",
-            rf"$c_x$ = ${cx:.2f}$ px, $c_y$ = ${cy:.2f}$ px",
-            rf"$\vec{{t}}$ = $[{tx:.2f}, {ty:.2f}, {tz:.2f}]$ mm",
-            rf"$\alpha$ = ${a:.2f}°$, $\beta$ = ${b:.2f}°$, $\gamma$ = ${g:.2f}$°",
-            rf"$\mu_{{max}}$ = ${max_err:.3f}$ px, $\mu_{{avg}}$ = ${avg_err:.3f}$ px",
-        ))
-
-        props = dict(boxstyle='round', facecolor='wheat', alpha=0.7)
-        ax.text(0.03, 0.03, graph_info, transform=ax.transAxes, fontsize=10,
-                verticalalignment='bottom', bbox=props)
 
         plt.gca().update({
             "title": image_path,
