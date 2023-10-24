@@ -23,6 +23,7 @@ def main() -> int:
         calibration_world_coords, calibration_image_coords)
 
     K, R, t = calicam.decompose_proj_matrix(proj_matrix)
+    
     (cx, cy), (fx, fy) = calicam.extract_intrinsics(K)
     a, b, g = calicam.extract_orientation_zyx(R)
     tx, ty, tz = t
