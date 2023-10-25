@@ -5,14 +5,19 @@ Vec3 = tuple[float, float, float]
 
 
 def parse_csv(path: str) -> tuple[list[Vec3], list[Vec2]]:
-    with open(path, 'r') as f:
+    '''
+    Parses a csv and returns a list of 3D scene points and their corresonding 
+    2D image mappings.
+    CSV format: x,y,z,u,v
+    where 3D point = (x, y, z) and 2D point (u,v)
+    '''
+    with open(path, "r") as f:
         reader = csv.reader(f, delimiter=",")
 
         world_coords = []
         image_coords = []
         for lno, line in enumerate(reader, start=1):
-            if len(line) != 5:
-                raise Exception(f"Data on line {lno} in {path} is invalid.")
+            assert len(line) == 5, f"Data on line {lno} in {path} is invalid."
 
             x, y, z, u, v = (float(s) for s in line)
 
