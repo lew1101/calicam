@@ -85,15 +85,16 @@ def main() -> int:
         if args.graph is not None:
             image_path: str = args.graph
 
+            ax: plt.Axes
             _, ax = plt.subplots(figsize=(8, 10))
 
             plt.gca().invert_yaxis()
 
             if image_path != "":
                 assert os.path.isfile(image_path), f"{image_path} does not exist."
-                assert args.data, (
-                    "Path to data csv file must be provided" "using -d flag to produce graph."
-                )
+                assert (
+                    args.data
+                ), "Path to data csv file must be provide using -d flag to produce graph."
 
                 img = plt.imread(image_path)
                 ax.imshow(img)
@@ -103,14 +104,14 @@ def main() -> int:
                 *zip(*data_image_coords),
                 label="Data Points",
                 s=50,
-                c="deeppink",
+                color="deeppink",
                 alpha=0.7,
             )
             ax.scatter(
                 *zip(*reprojections),
                 label="Reprojected Points",
                 s=50,
-                c="yellow",
+                color="yellow",
                 alpha=0.7,
             )
             ax.scatter(
@@ -120,7 +121,7 @@ def main() -> int:
                 c="mediumblue",
                 alpha=0.8,
             )
-            ax.scatter(cx, cy, label="Principal Point", s=70, c="crimson")
+            ax.scatter(cx, cy, label="Principal Point", s=70, color="crimson")
 
             plt.gca().update({"title": image_path, "xlabel": "$u$ (px)", "ylabel": "$v$ (px)"})
             plt.legend()
