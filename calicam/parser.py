@@ -5,12 +5,12 @@ Vec3 = tuple[float, float, float]
 
 
 def parse_csv(path: str) -> tuple[list[Vec3], list[Vec2]]:
-    '''
-    Parses a csv and returns a list of 3D scene points and their corresonding 
+    """
+    Parses a csv and returns a list of 3D scene points and their corresonding
     2D image mappings.
     CSV format: x,y,z,u,v
     where 3D point = (x, y, z) and 2D point (u,v)
-    '''
+    """
     with open(path, "r") as f:
         reader = csv.reader(f, delimiter=",")
 

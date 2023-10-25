@@ -11,11 +11,9 @@ Vec3 = tuple[float, float, float]
 ProjMatrix = NDArray[Shape["3, 4"], Double]
 
 
-def generate_input_matrix(
-    world_coords: list[Vec3], image_coords: list[Vec2]
-) -> np.ndarray:
+def generate_input_matrix(world_coords: list[Vec3], image_coords: list[Vec2]) -> np.ndarray:
     """
-    Generates a calibration matrix from list of 3D world coords and 
+    Generates a calibration matrix from list of 3D world coords and
     their corresponding pixel coord mappings
     """
     rows = []
@@ -29,17 +27,16 @@ def generate_proj_matrix(
     world_coords: list[Vec3], image_coords: list[Vec2]
 ) -> tuple[ProjMatrix, float]:
     """
-    Takes 3D calibration points their corresponding pixel coord mappings and 
+    Takes 3D calibration points their corresponding pixel coord mappings and
     returns the projection matrix as a 3x4 matrix
     """
     assert len(world_coords) == len(image_coords), (
         f"The number of world coordinates ({world_coords}) "
         "and image coordinates ({image_coords}) do not match."
     )
-    assert len(world_coords) >= 6, (
-        f"Need at least 6 calibration points, "
-        "but only {len(world_coords)} were provided."
-    )
+    assert (
+        len(world_coords) >= 6
+    ), f"Need at least 6 calibration points, but only {len(world_coords)} were provided."
 
     A = generate_input_matrix(world_coords, image_coords)
     M = A.T @ A

@@ -17,7 +17,7 @@ def decompose_proj_matrix(
     proj_matrix: ProjMatrix,
 ) -> tuple[CalMatrix, RotMatrix, Vec3]:
     """
-    Decomposes the projection matrix into the calibration matrix, 
+    Decomposes the projection matrix into the calibration matrix,
     rotation matrix, and translation matrix.
     """
     K, R = scipy.linalg.rq(proj_matrix[:, :3])

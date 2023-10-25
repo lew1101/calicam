@@ -20,19 +20,21 @@ def main() -> int:
     )
 
     parser.add_argument("path", help="path to csv file with calibration points")
-    parser.add_argument("-d", "--data", metavar="PATH", help="path to csv file with model verification data")
-    parser.add_argument("-g", "--graph", nargs="?", const="", metavar="IMAGE", help="generate graph")
+    parser.add_argument(
+        "-d", "--data", metavar="PATH", help="path to csv file with model verification data"
+    )
+    parser.add_argument(
+        "-g", "--graph", nargs="?", const="", metavar="IMAGE", help="generate graph"
+    )
     parser.add_argument("-o", "--out", metavar="PATH", help="graph output location")
 
     args = parser.parse_args()
 
     try:
         csv_path: str = args.path
-        
+
         cali_world_coords, cali_image_coords = calicam.parse_csv(csv_path)
-        proj_matrix, _ = calicam.generate_proj_matrix(
-            cali_world_coords, cali_image_coords
-        )
+        proj_matrix, _ = calicam.generate_proj_matrix(cali_world_coords, cali_image_coords)
 
         cali_matrix, rot_matrix, t = calicam.decompose_proj_matrix(proj_matrix)
 
@@ -67,8 +69,7 @@ def main() -> int:
 
             data_world_coords, data_image_coords = calicam.parse_csv(data_path)
             reprojections = [
-                calicam.project(proj_matrix, world_coord)
-                for world_coord in data_world_coords
+                calicam.project(proj_matrix, world_coord) for world_coord in data_world_coords
             ]
             reproj_errors = [
                 calicam.calculate_reproj_error(actual_coord, reproj_coord)
@@ -91,8 +92,7 @@ def main() -> int:
             if image_path != "":
                 assert os.path.isfile(image_path), f"{image_path} does not exist."
                 assert args.data, (
-                    "Path to data csv file must be provided"
-                    "using -d flag to produce graph."
+                    "Path to data csv file must be provided" "using -d flag to produce graph."
                 )
 
                 img = plt.imread(image_path)
@@ -122,9 +122,7 @@ def main() -> int:
             )
             ax.scatter(cx, cy, label="Principal Point", s=70, c="crimson")
 
-            plt.gca().update(
-                {"title": image_path, "xlabel": "$u$ (px)", "ylabel": "$v$ (px)"}
-            )
+            plt.gca().update({"title": image_path, "xlabel": "$u$ (px)", "ylabel": "$v$ (px)"})
             plt.legend()
 
             if args.out is not None:
