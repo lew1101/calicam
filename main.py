@@ -2,7 +2,7 @@
 import os
 import sys
 
-from argparse import ArgumentParser
+from argparse import ArgumentParser 
 import numpy as np
 import matplotlib.pyplot as plt
 
@@ -10,10 +10,14 @@ import calicam
 
 
 def main() -> int:
-    parser = ArgumentParser()
-    parser.add_argument("path", help="Path to csv file")
-    parser.add_argument("-d", "--data", help="Path to csv file")
-    parser.add_argument("-g", "--graph", nargs="?", const="", help="Generate graph")
+    parser = ArgumentParser(
+        prog="calicam",
+        description="Generates projection matrix and calculates intrinsic and extrinsic parameters."
+    )
+    
+    parser.add_argument("path", help="path to csv file")
+    parser.add_argument("-d", "--data", help="path to csv file")
+    parser.add_argument("-g", "--graph", nargs="?", const="", help="generate graph")
 
     try:
         args = parser.parse_args()
