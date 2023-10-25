@@ -19,17 +19,17 @@ def main() -> int:
         formatter_class=RawDescriptionHelpFormatter,
     )
 
-    parser.add_argument("csv", help="path to csv file with calibration points")
+    parser.add_argument("path", help="path to csv file with calibration points")
     parser.add_argument("-d", "--data", metavar="PATH", help="path to csv file with model verification data")
-    parser.add_argument(
-        "-g", "--graph", nargs="?", const="", metavar="IMAGE", help="generate graph"
-    )
+    parser.add_argument("-g", "--graph", nargs="?", const="", metavar="IMAGE", help="generate graph")
     parser.add_argument("-o", "--out", metavar="PATH", help="graph output location")
 
     args = parser.parse_args()
 
     try:
-        cali_world_coords, cali_image_coords = calicam.parse_csv(args.path)
+        csv_path: str = args.path
+        
+        cali_world_coords, cali_image_coords = calicam.parse_csv(csv_path)
         proj_matrix, _ = calicam.generate_proj_matrix(
             cali_world_coords, cali_image_coords
         )
