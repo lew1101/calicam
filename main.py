@@ -2,7 +2,7 @@
 import os
 import sys
 
-from argparse import ArgumentParser 
+from argparse import ArgumentParser, RawDescriptionHelpFormatter
 import numpy as np
 import matplotlib.pyplot as plt
 
@@ -12,16 +12,23 @@ import calicam
 def main() -> int:
     parser = ArgumentParser(
         prog="calicam",
-        description="Generates projection matrix and calculates intrinsic and extrinsic parameters."
+        description=(
+            "Generates projection matrix and calculates intrinsic and extrinsic parameters.\n"
+            "CSV inputs are in the format: x,y,z,u,v where 3D point = (x, y, z) and 2D point (u,v)"
+        ),
+        formatter_class=RawDescriptionHelpFormatter,
     )
-    
-    parser.add_argument("path", help="path to csv file")
-    parser.add_argument("-d", "--data", help="path to csv file")
-    parser.add_argument("-g", "--graph", nargs="?", const="", help="generate graph")
+
+    parser.add_argument("csv", help="path to csv file with calibration points")
+    parser.add_argument("-d", "--data", metavar="PATH", help="path to csv file with model verification data")
+    parser.add_argument(
+        "-g", "--graph", nargs="?", const="", metavar="IMAGE", help="generate graph"
+    )
+    parser.add_argument("-o", "--out", metavar="PATH", help="graph output location")
+
+    args = parser.parse_args()
 
     try:
-        args = parser.parse_args()
-
         cali_world_coords, cali_image_coords = calicam.parse_csv(args.path)
         proj_matrix, _ = calicam.generate_proj_matrix(
             cali_world_coords, cali_image_coords
@@ -119,7 +126,12 @@ def main() -> int:
                 {"title": image_path, "xlabel": "$u$ (px)", "ylabel": "$v$ (px)"}
             )
             plt.legend()
-            plt.show()
+
+            if args.out is not None:
+                out_path: str = args.out
+                plt.savefig(out_path)
+            else:
+                plt.show()
 
     except AssertionError as e:
         print(f"\nERROR: {str(e)}")
