@@ -136,13 +136,12 @@ def main() -> int:
         print(f"\nERROR: {str(e)}")
         return 1
 
+    except KeyboardInterrupt:
+        print(f"\nKeyboard Interrupt")
+        return 1
+
     return 0
 
 
 if __name__ == "__main__":
-    try:
-        sys.exit(main())
-
-    except KeyboardInterrupt:
-        print(f"\nKeyboard Interrupt")
-        sys.exit(0)
+    sys.exit(main())
