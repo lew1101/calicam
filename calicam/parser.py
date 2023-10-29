@@ -1,10 +1,9 @@
 import csv
 
-Vec2 = tuple[float, float]
-Vec3 = tuple[float, float, float]
+from .vecs import *
 
 
-def parse_csv(path: str) -> tuple[list[Vec3], list[Vec2]]:
+def parse_data_from_csv(path: str) -> tuple[list[Vec3f], list[Vec2f]]:
     """
     Parses a csv and returns a list of 3D scene points and their corresonding
     2D image mappings.
