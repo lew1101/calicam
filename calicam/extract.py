@@ -50,7 +50,7 @@ def extract_orientation_zyx(R: RotMatrix) -> Vec3f:
     Extract tait-bryan angles (zyx) from rotation matrix
     """
     return (
-        np.degrees(np.arcsin(-R[2][0])),  # z rotation
-        np.degrees(np.arcsin(R[1][0] / sqrt(1 - (R[2][0])**2))),  # y rotation
-        np.degrees(np.arcsin(R[2][1] / sqrt(1 - (R[2][0])**2))),  # x rotation
+        np.degrees(np.arcsin(R[2][1] / sqrt(1 - (R[2][0])**2))),  # alpha (x rotation)
+        np.degrees(np.arcsin(-R[2][0])),  # beta (y rotation)
+        np.degrees(np.arcsin(R[1][0] / sqrt(1 - (R[2][0])**2))),  # gamma (z rotation)
     )
