@@ -12,7 +12,7 @@ def main():
     parser = ArgumentParser(
         prog="calicam",
         description=("Generates projection matrix and calculates intrinsic and extrinsic parameters.\n"
-                     "CSV inputs are in the format: x,y,z,u,v where 3D point = (x, y, z) and 2D point (u,v)"),
+                     "CSV inputs are in the format: x,y,z,u,v where 3D point = (x, y, z) and 2D point = (u,v)"),
         formatter_class=RawDescriptionHelpFormatter,
     )
 
