@@ -2,7 +2,7 @@
 name = "calicam"
 version = "0.1.0"
 description = ""
-authors = ["Kenneth Lew <lew1101@192.168.12.23>"]
+authors = ["Kenneth Lew <lew1101>"]
 readme = "README.md"
 
 [tool.poetry.dependencies]
