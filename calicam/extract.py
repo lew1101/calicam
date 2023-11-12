@@ -25,7 +25,7 @@ def calibrate_camera(world_coords: list[Vec3f],
     K = K @ D
     R = D @ R
 
-    # scale projection matrix and calibration matrix so that
+    # scale projection matrix and calibration matrix to reflect real world scaling
     scale_factor = 1 / K[2][2]
     proj_matrix *= scale_factor
     K *= scale_factor
