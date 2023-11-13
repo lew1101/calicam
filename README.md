@@ -22,7 +22,9 @@ pip3 install -r requirements.txt
 
 ## Run
 
-To run the program, simply execute `./run.py` with arguments passed. Basic usage:
+To run the program, simply execute `run.py` with arguments passed.
+
+**Basic usage**:
 
 ```shell
 python3 run.py calibration_points.csv -d data.csv -g
