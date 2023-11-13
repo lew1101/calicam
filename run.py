@@ -11,24 +11,25 @@ import calicam
 def main():
     np.set_printoptions(precision=3, suppress=True)
 
+    MAX_HELP_POSITION = 40
+
     parser = ArgumentParser(
         prog="calicam",
         description=(
             "Generates projection matrix and calculates intrinsic and extrinsic parameters.\n"
             "CSV inputs are in the format: x,y,z,u,v where 3D point = (x, y, z) and 2D point = (u,v)"),
-        formatter_class=RawDescriptionHelpFormatter,
+        formatter_class=lambda prog: RawDescriptionHelpFormatter(prog, max_help_position=MAX_HELP_POSITION),
     )
 
-    parser.add_argument("path", help="path to csv file with calibration points")
+    parser.add_argument("path", metavar="PATH", help="path to csv file with calibration points")
     parser.add_argument(
         "-d", "--data", metavar="DATA_PATH", help="path to csv file with model verification data")
     parser.add_argument(
-        "-g", "--graph", nargs="?", const="", metavar="BACKGROUND_IMAGE", help="generate graph")
-    parser.add_argument("-t", "--title", metavar="TITLE", help="title of graph")
-    parser.add_argument("-s", "--show", action="store_true", help="show graph")
-    parser.add_argument("-o", "--out", metavar="GRAPH_OUPUT_PATH", help="graph output location")
-    parser.add_argument("-l", "--log", metavar="LOG_OUTPUT_PATH", help="log parameters")
-    parser.add_argument("--noprint", action="store_true", help="don't print output")
+        "-g", "--graph", nargs="?", const="", metavar="BKGD_IMG", help="generate graph")
+    parser.add_argument("-t", "--title", metavar="TITLE", help="title of graph (ignored if `-g` is not passed)")
+    parser.add_argument("-s", "--show", action="store_true", help="show graph (only necessary if `-o` is passed)")
+    parser.add_argument("-o", "--out", metavar="GRAPH_PATH", help="graph output location ")
+    parser.add_argument("--noprint", action="store_true", help="don't print output to terminal")
 
     args = parser.parse_args()
 
@@ -83,12 +84,6 @@ def main():
         # OUTPUT
         if not args.noprint:
             print(*output, sep="\n")
-
-        log_path: str = args.log
-        if log_path is not None:
-            assert os.path.isfile(data_path), f"{data_path} does not exist."
-            with open(log_path, "w") as f:
-                print(*output, sep="\n", file=f)
 
         # GRAPH
         image_path: str | None = args.graph
