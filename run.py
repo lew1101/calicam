@@ -43,10 +43,14 @@ def main():
         proj_matrix, cali_matrix, rot_matrix, (tx, ty, tz) = calicam.calibrate_camera(
             cali_world_coords, cali_image_coords)
 
-        (cx, cy), (fx, fy) = calicam.extract_intrinsics(cali_matrix)
-        a, b, g = calicam.extract_orientation_zyx(rot_matrix)
+        # origin
+        (ox, oy) = calicam.project_point(proj_matrix, (0.0, 0.0, 0.0))
 
-        log_path: str = args.path
+        # principal point, focal lengths
+        (cx, cy), (fx, fy) = calicam.extract_intrinsics(cali_matrix)
+        
+        # tait-bryan angles
+        a, b, g = calicam.extract_orientation_zyx(rot_matrix)
 
         output.append("\n" + "\n\n".join((
             f"Projection Matrix: \n{proj_matrix}",
@@ -135,6 +139,9 @@ def main():
                 marker="D",
                 color="darkorange",
             )
+            
+            # origin point
+            ax.scatter(ox, oy, label="Origin", s=120, marker="o", color="green")
 
             # principle point
             ax.scatter(cx, cy, label="Principal Point", s=120, marker="p", color="magenta")
@@ -147,7 +154,7 @@ def main():
             out_path: str | None = args.out
 
             if out_path:
-                plt.savefig(out_path)
+                plt.savefig(out_path, bbox_inches='tight')
 
             # show graph if -s flag was specified or if a save location was not specified
             if args.show or not out_path:
