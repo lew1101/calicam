@@ -43,5 +43,4 @@ def project_point(projection_matrix: ProjMatrix, world_coords: Vec3f) -> Vec2f:
     """
     Calculate pixel coordinate from 3D world coord using projection matrix
     """
-    im_point = projection_matrix @ to_homogenous(world_coords)
-    return to_inhomogenous(im_point)  # turn into inhomogenous coords
+    return to_inhomogenous(projection_matrix @ to_homogenous(world_coords))  # turn into inhomogenous coords

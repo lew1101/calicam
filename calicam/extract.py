@@ -40,8 +40,8 @@ def extract_intrinsics(K: CalMatrix) -> tuple[Vec2f, Vec2f]:
     """
     Extract principle point and focal lengths from calibration matrix
     """
-    focal_lengths = (K[0][0], K[1][1])
     principal_point = (K[0][2], K[1][2])
+    focal_lengths = (K[0][0], K[1][1])
     return principal_point, focal_lengths
 
 
