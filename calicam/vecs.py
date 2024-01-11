@@ -15,4 +15,5 @@ def to_inhomogenous(vec: Vecf) -> Vecf:
 
 
 def euclidean(a: Vecf, b: Vecf) -> float:
+    assert len(a) == len(b), f"Vectors need to have the same dimension"
     return sqrt(sum((b_i - a_i)**2 for a_i, b_i in zip(a, b)))
